@@ -1,41 +1,32 @@
-"use client";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Menu, Search } from "lucide-react";
+import { Menu } from "lucide-react";
 import Link from "next/link";
 import { BsLinkedin } from "react-icons/bs";
 import { RiInstagramFill, RiTwitterFill } from "react-icons/ri";
-import { Input } from "./ui/input";
-import { useState } from "react";
 
 const Navbar = () => {
-  const [showSearch, setShowSearch] = useState(false);
-
   return (
-    <nav className="container mx-auto p-4 sm:p-6">
+    <nav className="container mx-auto py-4 md:py-6">
       <div className="flex w-full flex-col gap-4">
-        <div className="flex w-full items-center justify-between">
+        <div className="flex items-center justify-between">
           <Link href="/" className="flex-shrink-0">
             <h1 className="text-xl font-bold sm:text-2xl">HotCoffee</h1>
           </Link>
-
-          <div className="mx-8 hidden max-w-md flex-grow md:block">
-            <Input type="text" placeholder="Search" className="w-full" />
-          </div>
 
           <div className="hidden items-center gap-6 lg:flex">
             <Link href="/" className="transition-colors hover:text-gray-600">
               Home
             </Link>
             <Link
-              href="/articles"
+              href="/blogs"
               className="transition-colors hover:text-gray-600"
             >
-              Articles
+              Blog
             </Link>
             <Link
               href="/categories"
@@ -64,14 +55,6 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center gap-2 md:gap-4 lg:hidden">
-            <button
-              onClick={() => setShowSearch(!showSearch)}
-              className="rounded-full p-2 hover:bg-gray-100 md:hidden"
-              aria-label="Toggle search"
-            >
-              <Search size={20} />
-            </button>
-
             <DropdownMenu>
               <DropdownMenuTrigger className="rounded-full p-2 hover:bg-gray-100">
                 <Menu size={20} />
@@ -117,12 +100,6 @@ const Navbar = () => {
             </DropdownMenu>
           </div>
         </div>
-
-        {showSearch && (
-          <div className="flex w-full pb-2 md:hidden">
-            <Input type="text" placeholder="Search" className="w-full" />
-          </div>
-        )}
       </div>
     </nav>
   );

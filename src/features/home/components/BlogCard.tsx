@@ -1,22 +1,29 @@
 import Image from "next/image";
 import Link from "next/link";
-import { BlogPost } from "@/types/blog";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Blog } from "@/types/blog";
+import { formatDate } from "@/lib/utils";
 
 interface BlogCardProps {
-  post: BlogPost;
+  post: Blog;
   isFeatured?: boolean;
   className?: string;
 }
 
-export function BlogCard({ post, isFeatured = false, className = "" }: BlogCardProps) {
+export function BlogCard({
+  post,
+  isFeatured = false,
+  className = "",
+}: BlogCardProps) {
   return (
     <Card className={`overflow-hidden border-none shadow-none ${className}`}>
-      <div className={`relative ${isFeatured ? "flex flex-row-reverse items-center" : ""}`}>
+      <div
+        className={`relative ${isFeatured ? "flex flex-row-reverse items-center" : ""}`}
+      >
         <div className={`${isFeatured ? "w-1/2" : "w-full"}`}>
-          <div className="overflow-hidden">
+          <div className="overflow-hidden rounded-lg">
             <Image
-              src={post.imageUrl}
+              src={post.thumbnail}
               alt={post.title}
               width={isFeatured ? 500 : 400}
               height={isFeatured ? 300 : 240}
@@ -24,19 +31,18 @@ export function BlogCard({ post, isFeatured = false, className = "" }: BlogCardP
             />
           </div>
         </div>
-        
+
         <CardContent className={`pt-6 ${isFeatured ? "w-1/2 px-6" : ""}`}>
-          <h2 className="mb-4 text-2xl font-bold text-gray-800">{post.title}</h2>
-          <p className="text-gray-600">{post.excerpt}</p>
+          <h2 className="mb-4 text-2xl font-bold text-gray-800">
+            {post.title}
+          </h2>
+          <p className="text-gray-600 line-clamp-2">{post.description}</p>
         </CardContent>
       </div>
-      
+
       <CardFooter className="flex items-center justify-between pt-2 pb-6">
-        <p className="text-sm text-gray-500">{post.date}</p>
-        <Link 
-          href={`/blog/${post.id}`}
-          className="text-sm font-medium text-gray-700 hover:text-indigo-600"
-        >
+        <p className="text-sm text-gray-500">{formatDate(post.created)}</p>
+        <Link href={`/blogs/${post.slug}`} className="text-sm font-medium hover:underline">
           Read more
         </Link>
       </CardFooter>
