@@ -38,14 +38,11 @@ const BlogPostPage: FC<BlogDetailProps> = async ({ params }) => {
               <time dateTime={blogs[0].created}>
                 {formatDate(blogs[0].created)}
               </time>
-              <div className="flex items-center">
-              <User className="mr-1 h-4 w-4" />
-              <span>{blogs[0].author.name}</span>
-            </div>
+              
             </div>
             <div className="flex items-center">
               <User className="mr-1 h-4 w-4" />
-              <span>{blogs[0].ownerId}</span>
+              <span>{blogs[0].author.name}</span>
             </div>
             <Link
               href={`/categories/${blogs[0].slug}`}
@@ -68,6 +65,22 @@ const BlogPostPage: FC<BlogDetailProps> = async ({ params }) => {
 
         <div className="prose prose-lg dark:prose-invert max-w-none">
           <Markdown content={blogs[0].content}/>
+        </div>
+        <div className="mt-12 border-t pt-8">
+          <div className="flex items-center gap-4">
+            <Image
+              src={blogs[0].author.avatar || "/placeholder.svg"}
+              alt={blogs[0].author.name}
+              width={60}
+              height={60}
+              className="rounded-full"
+            />
+            <div>
+              <h3 className="font-bold">{blogs[0].author.name}</h3>
+              <p className="text-sm text-muted-foreground">{blogs[0].author.role}</p>
+              <p className="mt-1 text-sm">{blogs[0].author.bio}</p>
+            </div>
+          </div>
         </div>
       </article>
     </div>
