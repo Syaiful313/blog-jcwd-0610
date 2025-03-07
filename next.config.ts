@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "regulariron-us.backendless.app",
+        hostname: "peachyrule-us.backendless.app",
       },
     ],
   },

@@ -178,6 +178,7 @@ export default function BlogPage() {
                       <p className="text-muted-foreground line-clamp-2 text-sm">
                         {post.description}
                       </p>
+                      
                     </div>
                   </div>
                 </Link>

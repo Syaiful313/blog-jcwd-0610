@@ -1,3 +1,6 @@
+import { Author } from "./author";
+import { Category } from "./category";
+
 export type Blog = {
   objectId: string; // ID unik dari Backendless
   thumbnail: string; // File Reference (URL gambar)
@@ -9,4 +12,6 @@ export type Blog = {
   ownerId: string; // String dengan max length 36
   created: string; // Datetime (ISO string)
   updated: string; // Datetime (ISO string)
+  author: Author;
+  categories: Category[];
 };

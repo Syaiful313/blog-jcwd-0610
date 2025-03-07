@@ -35,7 +35,7 @@ export const authors: Author[] = [
 export const categories: Category[] = [
   {
     id: "1",
-    title: "Technology",
+    title: "Teknologi",
     description: "Latest news and updates from the tech world",
     slug: "technology",
   },
