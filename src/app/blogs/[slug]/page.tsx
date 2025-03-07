@@ -38,6 +38,10 @@ const BlogPostPage: FC<BlogDetailProps> = async ({ params }) => {
               <time dateTime={blogs[0].created}>
                 {formatDate(blogs[0].created)}
               </time>
+              <div className="flex items-center">
+              <User className="mr-1 h-4 w-4" />
+              <span>{blogs[0].author.name}</span>
+            </div>
             </div>
             <div className="flex items-center">
               <User className="mr-1 h-4 w-4" />
