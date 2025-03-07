@@ -89,7 +89,7 @@ const Navbar = () => {
             <Link href="/" className="py-4 text-4xl font-light">
               HOME
             </Link>
-            <Link href="/blog" className="py-4 text-4xl font-light">
+            <Link href="/blogs" className="py-4 text-4xl font-light">
               BLOG
             </Link>
             <Link href="/categories" className="py-4 text-4xl font-light">
