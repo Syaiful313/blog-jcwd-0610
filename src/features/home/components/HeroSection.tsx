@@ -2,8 +2,8 @@ import Image from "next/image";
 
 const HeroSection = () => {
   return (
-    <section className="py-10 sm:py-16 md:py-32">
-      <div className="container mx-auto">
+    <section className="py-10 md:mx-0 mx-4 sm:py-16 md:py-32">
+      <div className="container md:mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <div className="text-center md:text-left order-2 md:order-1 mt-8 md:mt-0">
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-semibold leading-tight">
