@@ -66,7 +66,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Full screen mobile menu (Socio Space style) */}
+      {/* Full screen mobile menu */}
       {isMenuOpen && (
         <div className="fixed inset-0 z-50 bg-black">
           {/* Header with logo and close button */}
@@ -86,29 +86,45 @@ const Navbar = () => {
 
           {/* Menu items */}
           <div className="flex flex-col items-center py-8 text-white">
-            <Link href="/" className="py-4 text-4xl font-light">
+            <Link
+              href="/"
+              className="py-4 text-4xl font-light"
+              onClick={() => setIsMenuOpen(false)}
+            >
               HOME
             </Link>
-            <Link href="/blogs" className="py-4 text-4xl font-light">
+            <Link
+              href="/blogs"
+              className="py-4 text-4xl font-light"
+              onClick={() => setIsMenuOpen(false)}
+            >
               BLOG
             </Link>
-            <Link href="/categories" className="py-4 text-4xl font-light">
+            <Link
+              href="/categories"
+              className="py-4 text-4xl font-light"
+              onClick={() => setIsMenuOpen(false)}
+            >
               CATEGORY
             </Link>
-            <Link href="/about" className="py-4 text-4xl font-light">
+            <Link
+              href="/about"
+              className="py-4 text-4xl font-light"
+              onClick={() => setIsMenuOpen(false)}
+            >
               ABOUT
             </Link>
-              <span className="py-4 text-4xl font-light">Follow us</span>
-              <div className="flex gap-3">
-                <Link href="/">
-                  <RiInstagramFill className="text-4xl" />
-                </Link>
-                <Link href="/">
-                  <RiTwitterFill className="text-4xl" />
-                </Link>
-                <Link href="/">
-                  <BsLinkedin className="text-4xl" />
-                </Link>
+            <span className="py-4 text-4xl font-light">Follow us</span>
+            <div className="flex gap-3">
+              <Link href="/" onClick={() => setIsMenuOpen(false)}>
+                <RiInstagramFill className="text-4xl" />
+              </Link>
+              <Link href="/" onClick={() => setIsMenuOpen(false)}>
+                <RiTwitterFill className="text-4xl" />
+              </Link>
+              <Link href="/" onClick={() => setIsMenuOpen(false)}>
+                <BsLinkedin className="text-4xl" />
+              </Link>
             </div>
           </div>
         </div>
