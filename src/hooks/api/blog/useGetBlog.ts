@@ -9,7 +9,7 @@ const useGetBlog = (slug: string) => {
     queryKey: ["blog", slug],
     queryFn: async () => {
       const { data } = await axios.get<Blog[]>(
-        `${BASE_URL_API}/data/blogs?where=%60slug%60%20%3D%20'${slug}'&loadRelations=author`
+        `${BASE_URL_API}/data/blogs?where=%60slug%60%20%3D%20'${slug}'&loadRelations=author`,
       );
       return data;
     },

@@ -12,6 +12,7 @@ export type Blog = {
   ownerId: string; // String dengan max length 36
   created: string; // Datetime (ISO string)
   updated: string; // Datetime (ISO string)
+  views: number;
   author: Author;
   categories: Category[];
 };

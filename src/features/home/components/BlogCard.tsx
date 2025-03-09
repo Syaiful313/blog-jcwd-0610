@@ -1,8 +1,8 @@
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { formatDate } from "@/lib/utils";
+import { Blog } from "@/types/blog";
 import Image from "next/image";
 import Link from "next/link";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Blog } from "@/types/blog";
-import { formatDate } from "@/lib/utils";
 
 interface BlogCardProps {
   post: Blog;
@@ -36,13 +36,16 @@ export function BlogCard({
           <h2 className="mb-4 text-2xl font-bold text-gray-800">
             {post.title}
           </h2>
-          <p className="text-gray-600 line-clamp-2">{post.description}</p>
+          <p className="line-clamp-2 text-gray-600">{post.description}</p>
         </CardContent>
       </div>
 
       <CardFooter className="flex items-center justify-between pt-2 pb-6">
         <p className="text-sm text-gray-500">{formatDate(post.created)}</p>
-        <Link href={`/blogs/${post.slug}`} className="text-sm font-medium hover:underline">
+        <Link
+          href={`/blogs/${post.slug}`}
+          className="text-sm font-medium hover:underline"
+        >
           Read more
         </Link>
       </CardFooter>

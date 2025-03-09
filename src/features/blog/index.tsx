@@ -62,7 +62,6 @@ export default function BlogPage() {
             </div>
           </div>
 
-          {/* Mobile category filter toggle */}
           <div className="md:hidden">
             <Button
               variant="outline"
@@ -78,7 +77,6 @@ export default function BlogPage() {
         </div>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-4 md:gap-10">
-          {/* Mobile Category Sidebar */}
           {isMobileFilterOpen && (
             <div className="bg-background mb-6 rounded-lg border p-4 md:hidden">
               <h2 className="mb-3 text-lg font-semibold">Categories</h2>
@@ -112,7 +110,6 @@ export default function BlogPage() {
             </div>
           )}
 
-          {/* Desktop Sidebar */}
           <div className="hidden md:col-span-1 md:block">
             <div className="sticky top-20">
               <h2 className="mb-4 text-xl font-bold">Categories</h2>
@@ -140,7 +137,6 @@ export default function BlogPage() {
             </div>
           </div>
 
-          {/* Blog Posts */}
           <div className="md:col-span-3">
             {filteredPosts.length === 0 ? (
               <div className="py-10 text-center">
