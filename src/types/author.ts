@@ -1,5 +1,6 @@
 export type Author = {
-  id: string;
+  objectId: string;
+  slug: string;
   name: string;
   avatar: string;
   bio: string;
