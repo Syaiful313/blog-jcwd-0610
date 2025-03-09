@@ -59,7 +59,7 @@ const CategoryPage = async ({
                 </div>
                 <CardTitle className="line-clamp-2">
                   <Link
-                    href={`/blog/${blog.objectId}`}
+                    href={`/blogs/${blog.slug}`}
                     className="hover:underline"
                   >
                     {blog.title}

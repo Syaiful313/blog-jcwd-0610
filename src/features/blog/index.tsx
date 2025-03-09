@@ -50,7 +50,7 @@ export default function BlogPage() {
                 Explore our latest articles and insights
               </p>
             </div>
-            <div className="relative w-full md:w-64">
+            <div className="relative w-full md:max-w-xl">
               <Search className="text-muted-foreground absolute top-2.5 left-2.5 h-4 w-4" />
               <Input
                 type="search"

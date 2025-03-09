@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import useGetBlogs from "@/hooks/api/blog/useGetBlogs";
 import { formatDate } from "@/lib/utils";
 import Link from "next/link";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function BlogList() {
   const { blogs, isLoading, getBlogs } = useGetBlogs();
@@ -16,13 +17,15 @@ export function BlogList() {
   if (!blogs || blogs.length === 0) {
     return (
       <div className="py-8 text-center">
-        <p className="text-gray-500">No blogs found.</p>
+        <Skeleton className="mx-auto mb-2 h-6 w-32" />
+        <Skeleton className="mx-auto mb-4 h-4 w-48" />
         <Button onClick={getBlogs} className="mt-4">
           Refresh
         </Button>
       </div>
     );
   }
+  
 
   const featuredPost = blogs[0];
   const regularPosts = blogs.slice(1, 4);
