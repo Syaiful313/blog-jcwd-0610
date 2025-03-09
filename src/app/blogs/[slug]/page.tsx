@@ -1,15 +1,15 @@
 "use client";
 
-import React, { use } from "react";
+import IncrementViews from "@/components/IncrementViews";
 import Markdown from "@/components/Markdown";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import useGetBlog from "@/hooks/api/blog/useGetBlog";
 import { formatDate } from "@/lib/utils";
 import { ArrowLeft, Calendar, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { FC } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
+import { FC, use } from "react";
 
 interface BlogParams {
   slug: string;
@@ -25,7 +25,6 @@ const BlogPostPage: FC<BlogDetailProps> = ({ params }) => {
 
   const { data: blogs = [], isPending, isError } = useGetBlog(slug);
 
-  // Loading state
   if (isPending) {
     return (
       <main className="mx-4 md:mx-0">
@@ -72,7 +71,6 @@ const BlogPostPage: FC<BlogDetailProps> = ({ params }) => {
     );
   }
 
-  // Error state
   if (isError || !blogs || blogs.length === 0) {
     return (
       <main className="mx-4 md:mx-0">
@@ -108,12 +106,10 @@ const BlogPostPage: FC<BlogDetailProps> = ({ params }) => {
             <h1 className="mb-4 text-3xl font-bold md:text-5xl">
               {blog.title}
             </h1>
-            <div className="text-muted-foreground flex items-center justify-between">
+            <div className="text-muted-foreground flex items-center justify-center gap-12">
               <div className="flex items-center">
                 <Calendar className="mr-1 h-4 w-4" />
-                <time dateTime={blog.created}>
-                  {formatDate(blog.created)}
-                </time>
+                <time dateTime={blog.created}>{formatDate(blog.created)}</time>
               </div>
               <div className="flex items-center">
                 <User className="mr-1 h-4 w-4" />
@@ -161,6 +157,7 @@ const BlogPostPage: FC<BlogDetailProps> = ({ params }) => {
           </div>
         </article>
       </div>
+      <IncrementViews objectId={blog.objectId} views={blog.views} />
     </main>
   );
 };

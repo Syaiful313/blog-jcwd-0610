@@ -53,7 +53,6 @@ const Navbar = () => {
               </Link>
             </div>
 
-            {/* Mobile menu button */}
             <div className="flex items-center gap-2 md:gap-4 lg:hidden">
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -66,10 +65,8 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Full screen mobile menu */}
       {isMenuOpen && (
         <div className="fixed inset-0 z-50 bg-black">
-          {/* Header with logo and close button */}
           <div className="flex items-center justify-between p-4">
             <div className="text-2xl font-bold text-white">
               <span className="flex items-center">
@@ -84,7 +81,6 @@ const Navbar = () => {
             </button>
           </div>
 
-          {/* Menu items */}
           <div className="flex flex-col items-center py-8 text-white">
             <Link
               href="/"

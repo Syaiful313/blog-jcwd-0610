@@ -11,5 +11,4 @@ const useGetCategoryBySlug = async (slug: string) => {
   return data[0];
 };
 
-
 export default useGetCategoryBySlug;

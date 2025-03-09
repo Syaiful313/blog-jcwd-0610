@@ -10,7 +10,7 @@ const useGetBlogs = () => {
 
   const getBlogs = async () => {
     try {
-      const { data } = await axios.get(`${BASE_URL_API}/data/blogs`);
+      const { data } = await axios.get(`${BASE_URL_API}/data/blogs?sortBy=%60views%60%20desc`);
       setBlogs(data);
     } catch (error) {
       console.log(error);

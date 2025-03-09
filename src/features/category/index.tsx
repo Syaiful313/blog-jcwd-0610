@@ -1,6 +1,6 @@
-import Link from "next/link";
-import Image from "next/image";
 import useGetCategoryWithBlogs from "@/hooks/api/category/useGetCategoryWithBlogs";
+import Image from "next/image";
+import Link from "next/link";
 
 export default async function CategoriesPage() {
   const categories = await useGetCategoryWithBlogs();
