@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import useGetBlogs from "@/hooks/api/blog/useGetBlogs";
 import { formatDate } from "@/lib/utils";
+import Link from "next/link";
 
 export function BlogList() {
   const { blogs, isLoading, getBlogs } = useGetBlogs();
@@ -71,25 +72,27 @@ export function BlogList() {
         )}
 
         <div className="mt-8 flex justify-center sm:mt-10 sm:justify-end md:mt-12">
-          <Button className="text-sm sm:text-base">
-            See more
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="ml-1 h-3 w-3 sm:ml-2 sm:h-4 sm:w-4"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <polyline points="12 16 16 12 12 8" />
-              <line x1="8" y1="12" x2="16" y2="12" />
-            </svg>
-          </Button>
+          <Link href="/blogs" className="text-sm sm:text-base">
+            <Button className="text-sm sm:text-base">
+              See more
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="ml-1 h-3 w-3 sm:ml-2 sm:h-4 sm:w-4"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 16 16 12 12 8" />
+                <line x1="8" y1="12" x2="16" y2="12" />
+              </svg>
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

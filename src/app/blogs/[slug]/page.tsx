@@ -20,70 +20,73 @@ const BlogPostPage: FC<BlogDetailProps> = async ({ params }) => {
   const blogs = await useGetBlog(slug);
 
   return (
-    <div className="container mx-auto py-10">
-      <Button variant="ghost" asChild className="mb-8">
-        <Link href="/blogs">
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to Blog
-        </Link>
-      </Button>
-      <article className="mx-auto max-w-3xl">
-        <div className="mb-8 text-center">
-          <h1 className="mb-4 text-4xl font-bold md:text-5xl">
-            {blogs[0].title}
-          </h1>
-          <div className="text-muted-foreground flex items-center justify-center gap-4">
-            <div className="flex items-center">
-              <Calendar className="mr-1 h-4 w-4" />
-              <time dateTime={blogs[0].created}>
-                {formatDate(blogs[0].created)}
-              </time>
-              
+    <main className="mx-4 md:mx-0">
+      <div className="container mx-auto py-10">
+        <Button variant="ghost" asChild className="mb-8">
+          <Link href="/blogs">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Blog
+          </Link>
+        </Button>
+        <article className="mx-auto max-w-3xl">
+          <div className="mb-8 text-center">
+            <h1 className="mb-4 text-3xl font-bold md:text-5xl">
+              {blogs[0].title}
+            </h1>
+            <div className="text-muted-foreground flex items-center justify-center gap-4">
+              <div className="flex items-center">
+                <Calendar className="mr-1 h-4 w-4" />
+                <time dateTime={blogs[0].created}>
+                  {formatDate(blogs[0].created)}
+                </time>
+              </div>
+              <div className="flex items-center">
+                <User className="mr-1 h-4 w-4" />
+                <span>{blogs[0].author.name}</span>
+              </div>
+              <Link
+                href={`/categories/${blogs[0].slug}`}
+                className="text-primary hover:underline"
+              >
+                {blogs[0]?.category}
+              </Link>
             </div>
-            <div className="flex items-center">
-              <User className="mr-1 h-4 w-4" />
-              <span>{blogs[0].author.name}</span>
-            </div>
-            <Link
-              href={`/categories/${blogs[0].slug}`}
-              className="text-primary hover:underline"
-            >
-              {blogs[0]?.category}
-            </Link>
           </div>
-        </div>
 
-        <div className="mb-8 overflow-hidden rounded-lg">
-          <Image
-            src={blogs[0].thumbnail || "/placeholder.svg"}
-            alt={blogs[0].title}
-            width={1200}
-            height={630}
-            className="w-full object-cover"
-          />
-        </div>
-
-        <div className="prose prose-lg dark:prose-invert max-w-none">
-          <Markdown content={blogs[0].content}/>
-        </div>
-        <div className="mt-12 border-t pt-8">
-          <div className="flex items-center gap-4">
+          <div className="mb-8 overflow-hidden rounded-lg">
             <Image
-              src={blogs[0].author.avatar || "/placeholder.svg"}
-              alt={blogs[0].author.name}
-              width={60}
-              height={60}
-              className="rounded-full"
+              src={blogs[0].thumbnail || "/placeholder.svg"}
+              alt={blogs[0].title}
+              width={1200}
+              height={630}
+              className="w-full object-cover"
             />
-            <div>
-              <h3 className="font-bold">{blogs[0].author.name}</h3>
-              <p className="text-sm text-muted-foreground">{blogs[0].author.role}</p>
-              <p className="mt-1 text-sm">{blogs[0].author.bio}</p>
+          </div>
+
+          <div className="prose prose-lg dark:prose-invert max-w-none">
+            <Markdown content={blogs[0].content} />
+          </div>
+          <div className="mt-8 md:mt-12 border-t pt-4 md:pt-8">
+            <div className="flex items-center gap-4">
+              <Image
+                src={blogs[0].author.avatar || "/placeholder.svg"}
+                alt={blogs[0].author.name}
+                width={60}
+                height={60}
+                className="rounded-full"
+              />
+              <div>
+                <h3 className="font-bold">{blogs[0].author.name}</h3>
+                <p className="text-muted-foreground text-sm">
+                  {blogs[0].author.role}
+                </p>
+                <p className="mt-1 text-sm">{blogs[0].author.bio}</p>
+              </div>
             </div>
           </div>
-        </div>
-      </article>
-    </div>
+        </article>
+      </div>
+    </main>
   );
 };
 
