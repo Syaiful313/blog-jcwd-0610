@@ -9,6 +9,8 @@ const nextConfig: NextConfig = {
         hostname: "peachyrule-us.backendless.app",
       },
     ],
+    loader: "custom",
+    loaderFile: "./my/image/loader.js",
   },
 };
 
