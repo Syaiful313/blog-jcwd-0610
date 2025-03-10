@@ -30,7 +30,7 @@ const Team: FC = () => {
                 alt={author.name}
                 width={80}
                 height={80}
-                className="rounded-full object-cover"
+                className="rounded-xl object-cover"
                 priority={true}
               />
             </div>

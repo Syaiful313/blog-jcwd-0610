@@ -113,7 +113,9 @@ const BlogPostPage: FC<BlogDetailProps> = ({ params }) => {
               </div>
               <div className="flex items-center">
                 <User className="mr-1 h-4 w-4" />
+                <Link href={`/author/${blog.author.slug}`}>
                 <span>{blog.author.name}</span>
+                </Link>
               </div>
               <Link
                 href={`/categories/${blog.category}`}
