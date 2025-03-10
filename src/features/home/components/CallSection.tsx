@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 
 const CallSection = () => {
   return (
-    <section className="w-full py-12 md:py-24">
+    <section className="mx-4 md:mx-0 py-12 md:py-24">
       <div className="container mx-auto">
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
