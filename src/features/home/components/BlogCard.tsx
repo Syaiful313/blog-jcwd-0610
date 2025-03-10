@@ -18,9 +18,9 @@ export function BlogCard({
   return (
     <Card className={`overflow-hidden border-none shadow-none ${className}`}>
       <div
-        className={`relative ${isFeatured ? "flex flex-row-reverse items-center" : ""}`}
+        className={`relative ${isFeatured ? "flex flex-col items-center md:flex-row-reverse" : ""}`}
       >
-        <div className={`${isFeatured ? "w-1/2" : "w-full"}`}>
+        <div className={`${isFeatured ? "w-full md:w-1/2" : "w-full"}`}>
           <div className="overflow-hidden rounded-lg">
             <Image
               src={post.thumbnail}
@@ -32,7 +32,9 @@ export function BlogCard({
           </div>
         </div>
 
-        <CardContent className={`pt-6 ${isFeatured ? "w-1/2 px-6" : ""}`}>
+        <CardContent
+          className={`pt-6 ${isFeatured ? "w-full px-6 md:w-1/2" : ""}`}
+        >
           <h2 className="mb-4 text-2xl font-bold text-gray-800">
             {post.title}
           </h2>
