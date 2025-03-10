@@ -9,7 +9,7 @@ const PopularSection = () => {
 
   if (isPending) {
     return (
-      <section className="bg-muted w-full py-12 md:py-24">
+      <section className="mx-4 md:mx-0 py-12 md:py-24">
         <div className="container mx-auto">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <Skeleton className="h-10 w-48" />
@@ -48,7 +48,7 @@ const PopularSection = () => {
             </p>
           </div>
         </div>
-        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-8 mx-4 md:mx-0 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {data.map((category, index) => (
             <Link
               id={category.id}
