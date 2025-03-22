@@ -14,5 +14,5 @@ export type Blog = {
   updated: string; // Datetime (ISO string)
   views: number;
   author: Author;
-  categories: Category[];
+  categories: Category;
 };

@@ -114,15 +114,11 @@ const BlogPostPage: FC<BlogDetailProps> = ({ params }) => {
               <div className="flex items-center">
                 <User className="mr-1 h-4 w-4" />
                 <Link href={`/author/${blog.author.slug}`}>
-                <span>{blog.author.name}</span>
+                  <span>{blog.author.name}</span>
                 </Link>
               </div>
-              <Link
-                href={`/categories/${blog.category}`}
-                className="text-primary hover:underline"
-              >
-                {blog?.category}
-              </Link>
+
+              <p>{blog.category}</p>
             </div>
           </div>
 
