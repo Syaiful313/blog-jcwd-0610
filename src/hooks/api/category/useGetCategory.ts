@@ -6,7 +6,7 @@ import axios from "axios";
 
 const useGetCategories = () => {
   return useQuery({
-    queryKey: ["penulis"],
+    queryKey: ["categories"],
     queryFn: async () => {
       const { data } = await axios.get<Category[]>(
         `${BASE_URL_API}/data/categories`,

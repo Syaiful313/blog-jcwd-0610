@@ -20,7 +20,8 @@ const IncrementViews: FC<IncrementViewsProps> = ({ objectId, views }) => {
   };
   useEffect(() => {
     incrementViews();
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [objectId]);
   return <div/>;
 };
 

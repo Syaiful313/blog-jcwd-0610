@@ -23,7 +23,7 @@ export function BlogCard({
         <div className={`${isFeatured ? "w-full md:w-1/2" : "w-full"}`}>
           <div className="overflow-hidden rounded-lg">
             <Image
-              src={post.thumbnail}
+              src={post.thumbnail || "/placeholder.svg"}
               alt={post.title}
               width={isFeatured ? 500 : 400}
               height={isFeatured ? 300 : 240}

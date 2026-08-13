@@ -2,28 +2,20 @@
 import { Blog } from "@/types/blog";
 import { BASE_URL_API } from "@/utils/api";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 const useGetBlogs = () => {
-  const [blogs, setBlogs] = useState<Blog[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const { data, isPending, refetch } = useQuery({
+    queryKey: ["blogs"],
+    queryFn: async () => {
+      const { data } = await axios.get<Blog[]>(
+        `${BASE_URL_API}/data/blogs?sortBy=%60views%60%20desc`,
+      );
+      return data;
+    },
+  });
 
-  const getBlogs = async () => {
-    try {
-      const { data } = await axios.get(`${BASE_URL_API}/data/blogs?sortBy=%60views%60%20desc`);
-      setBlogs(data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    getBlogs();
-  }, []);
-
-  return { getBlogs, blogs, isLoading };
+  return { getBlogs: refetch, blogs: data ?? [], isLoading: isPending };
 };
 
 export default useGetBlogs;

@@ -19,7 +19,7 @@ export function BlogList() {
       <div className="py-8 text-center">
         <Skeleton className="mx-auto mb-2 h-6 w-32" />
         <Skeleton className="mx-auto mb-4 h-4 w-48" />
-        <Button onClick={getBlogs} className="mt-4">
+        <Button onClick={() => getBlogs()} className="mt-4">
           Refresh
         </Button>
       </div>
@@ -64,7 +64,7 @@ export function BlogList() {
             </div>
             <div className="order-1 mb-4 lg:order-2 lg:mb-0">
               <Image
-                src={specialPost.thumbnail}
+                src={specialPost.thumbnail || "/placeholder.svg"}
                 alt={specialPost.title}
                 width={600}
                 height={400}

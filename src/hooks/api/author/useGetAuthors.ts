@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const useGetAuthors = () => {
   return useQuery({
-    queryKey: ["penulis"],
+    queryKey: ["authors"],
     queryFn: async () => {
       const { data } = await axios.get<Author[]>(`${BASE_URL_API}/data/author`);
       return data;

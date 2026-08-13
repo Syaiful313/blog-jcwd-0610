@@ -68,9 +68,7 @@ export default function BlogPage() {
               className="flex w-full items-center justify-between"
               onClick={toggleMobileFilter}
             >
-              {selectedCategory
-                ? blogs.find((c) => c.slug === selectedCategory)?.category
-                : "All Categories"}
+              {selectedCategory || "All Categories"}
               {isMobileFilterOpen ? <X size={18} /> : <Menu size={18} />}
             </Button>
           </div>
@@ -95,7 +93,7 @@ export default function BlogPage() {
                   <Button
                     key={post.title}
                     variant={
-                      selectedCategory === post.slug ? "default" : "ghost"
+                      selectedCategory === post.title ? "default" : "ghost"
                     }
                     className="w-full justify-start"
                     onClick={() => {
@@ -125,7 +123,7 @@ export default function BlogPage() {
                   <Button
                     key={post.title}
                     variant={
-                      selectedCategory === post.slug ? "default" : "ghost"
+                      selectedCategory === post.title ? "default" : "ghost"
                     }
                     className="w-full justify-start"
                     onClick={() => setSelectedCategory(post.title)}
@@ -157,7 +155,7 @@ export default function BlogPage() {
                     <div className="flex h-full flex-col space-y-2 overflow-hidden rounded-lg border">
                       <div className="overflow-hidden">
                         <Image
-                          src={post.thumbnail}
+                          src={post.thumbnail || "/placeholder.svg"}
                           alt={post.title}
                           width={600}
                           height={400}
