@@ -7,19 +7,43 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import useGetCategoryBySlug from "@/hooks/api/category/useGetCategoryBySlug";
 import { formatDate } from "@/lib/utils";
+import { getCategoryBySlug } from "@/utils/api";
+import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
-const CategoryPage = async ({
-  params,
-}: {
+interface CategoryPageProps {
   params: Promise<{ slug: string }>;
-}) => {
-  const slug = (await params).slug;
-  const category = await useGetCategoryBySlug(slug);
+}
+
+export async function generateMetadata({
+  params,
+}: CategoryPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const category = await getCategoryBySlug(slug);
+
+  if (!category) {
+    return { title: "Category Not Found" };
+  }
+
+  return {
+    title: category.title,
+    description: category.description,
+  };
+}
+
+const CategoryPage = async ({ params }: CategoryPageProps) => {
+  const { slug } = await params;
+  const category = await getCategoryBySlug(slug);
+
+  if (!category) {
+    notFound();
+  }
+
+  const blogs = category.blogs ?? [];
 
   return (
     <main className="mx-4 md:mx-0">
@@ -38,7 +62,7 @@ const CategoryPage = async ({
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {category.blogs.map((blog) => (
+          {blogs.map((blog) => (
             <Card key={blog.objectId} className="flex h-full flex-col">
               <CardHeader className="p-0">
                 <div className="relative h-48 w-full">
@@ -85,7 +109,7 @@ const CategoryPage = async ({
           ))}
         </div>
 
-        {category.blogs.length === 0 && (
+        {blogs.length === 0 && (
           <div className="py-12 text-center">
             <h2 className="mb-4 text-2xl font-bold">
               No posts found in this category

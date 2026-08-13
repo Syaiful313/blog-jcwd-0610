@@ -1,9 +1,9 @@
-import useGetCategoryWithBlogs from "@/hooks/api/category/useGetCategoryWithBlogs";
+import { getCategoriesWithBlogs } from "@/utils/api";
 import Image from "next/image";
 import Link from "next/link";
 
 export default async function CategoriesPage() {
-  const categories = await useGetCategoryWithBlogs();
+  const categories = await getCategoriesWithBlogs();
 
   return (
     <main className="mx-4 md:mx-0">
@@ -17,7 +17,7 @@ export default async function CategoriesPage() {
 
         <div className="space-y-16">
           {categories.map((category) => {
-            const categoryPosts = category.blogs.slice(0, 3);
+            const categoryPosts = (category.blogs ?? []).slice(0, 3);
 
             return (
               <div key={category.objectId} className="space-y-6">
