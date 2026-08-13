@@ -1,96 +1,60 @@
-"use client";
-
 import IncrementViews from "@/components/IncrementViews";
 import Markdown from "@/components/Markdown";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import useGetBlog from "@/hooks/api/blog/useGetBlog";
-import { formatDate } from "@/lib/utils";
+import { formatDate, toIsoDate } from "@/lib/utils";
+import { getBlogBySlug } from "@/utils/api";
 import { ArrowLeft, Calendar, User } from "lucide-react";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { FC, use } from "react";
-
-interface BlogParams {
-  slug: string;
-}
+import { notFound } from "next/navigation";
 
 interface BlogDetailProps {
-  params: Promise<BlogParams>;
+  params: Promise<{ slug: string }>;
 }
 
-const BlogPostPage: FC<BlogDetailProps> = ({ params }) => {
-  const resolvedParams = use(params);
-  const slug = resolvedParams?.slug || "";
+export async function generateMetadata({
+  params,
+}: BlogDetailProps): Promise<Metadata> {
+  const { slug } = await params;
+  const blog = await getBlogBySlug(slug);
 
-  const { data: blogs = [], isPending, isError } = useGetBlog(slug);
-
-  if (isPending) {
-    return (
-      <main className="mx-4 md:mx-0">
-        <div className="container mx-auto py-10">
-          <Button variant="ghost" asChild className="mb-8">
-            <Link href="/blogs">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Blog
-            </Link>
-          </Button>
-          <article className="mx-auto max-w-3xl">
-            <div className="mb-8 text-center">
-              <Skeleton className="mx-auto mb-4 h-12 w-3/4" />
-              <div className="flex items-center justify-center gap-4">
-                <Skeleton className="h-5 w-32" />
-                <Skeleton className="h-5 w-32" />
-                <Skeleton className="h-5 w-20" />
-              </div>
-            </div>
-            <div className="mb-8 overflow-hidden rounded-lg">
-              <Skeleton className="h-80 w-full" />
-            </div>
-            <div className="space-y-4">
-              <Skeleton className="h-6 w-full" />
-              <Skeleton className="h-6 w-full" />
-              <Skeleton className="h-6 w-3/4" />
-              <Skeleton className="h-6 w-full" />
-              <Skeleton className="h-6 w-5/6" />
-              <Skeleton className="h-6 w-full" />
-            </div>
-            <div className="mt-8 border-t pt-4 md:mt-12 md:pt-8">
-              <div className="flex items-center gap-4">
-                <Skeleton className="h-14 w-14 rounded-full" />
-                <div className="w-full">
-                  <Skeleton className="mb-2 h-5 w-40" />
-                  <Skeleton className="mb-2 h-4 w-32" />
-                  <Skeleton className="h-4 w-full" />
-                </div>
-              </div>
-            </div>
-          </article>
-        </div>
-      </main>
-    );
+  if (!blog) {
+    return { title: "Blog Post Not Found" };
   }
 
-  if (isError || !blogs || blogs.length === 0) {
-    return (
-      <main className="mx-4 md:mx-0">
-        <div className="container mx-auto py-10">
-          <Button variant="ghost" asChild className="mb-8">
-            <Link href="/blogs">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Blog
-            </Link>
-          </Button>
-          <div className="mx-auto max-w-3xl text-center">
-            <h1 className="mb-4 text-3xl font-bold">Blog Post Not Found</h1>
-            <p>We couldn't find the blog post you're looking for.</p>
-          </div>
-        </div>
-      </main>
-    );
+  const images = blog.thumbnail ? [blog.thumbnail] : undefined;
+
+  return {
+    title: blog.title,
+    description: blog.description,
+    openGraph: {
+      type: "article",
+      title: blog.title,
+      description: blog.description,
+      publishedTime: toIsoDate(blog.created),
+      modifiedTime: toIsoDate(blog.updated),
+      authors: blog.author?.name ? [blog.author.name] : undefined,
+      images,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: blog.title,
+      description: blog.description,
+      images,
+    },
+  };
+}
+
+const BlogPostPage = async ({ params }: BlogDetailProps) => {
+  const { slug } = await params;
+  const blog = await getBlogBySlug(slug);
+
+  if (!blog) {
+    notFound();
   }
 
-  const blog = blogs[0];
+  const { author } = blog;
 
   return (
     <main className="mx-4 md:mx-0">
@@ -109,14 +73,18 @@ const BlogPostPage: FC<BlogDetailProps> = ({ params }) => {
             <div className="text-muted-foreground flex items-center justify-center gap-12">
               <div className="flex items-center">
                 <Calendar className="mr-1 h-4 w-4" />
-                <time dateTime={blog.created}>{formatDate(blog.created)}</time>
+                <time dateTime={toIsoDate(blog.created)}>
+                  {formatDate(blog.created)}
+                </time>
               </div>
-              <div className="flex items-center">
-                <User className="mr-1 h-4 w-4" />
-                <Link href={`/author/${blog.author.slug}`}>
-                  <span>{blog.author.name}</span>
-                </Link>
-              </div>
+              {author && (
+                <div className="flex items-center">
+                  <User className="mr-1 h-4 w-4" />
+                  <Link href={`/author/${author.slug}`}>
+                    <span>{author.name}</span>
+                  </Link>
+                </div>
+              )}
 
               <p>{blog.category}</p>
             </div>
@@ -128,6 +96,7 @@ const BlogPostPage: FC<BlogDetailProps> = ({ params }) => {
               alt={blog.title}
               width={1200}
               height={630}
+              priority
               className="w-full object-cover"
             />
           </div>
@@ -135,27 +104,27 @@ const BlogPostPage: FC<BlogDetailProps> = ({ params }) => {
           <div className="prose prose-lg dark:prose-invert max-w-none">
             <Markdown content={blog.content} />
           </div>
-          <div className="mt-8 border-t pt-4 md:mt-12 md:pt-8">
-            <div className="flex items-center gap-4">
-              <Image
-                src={blog.author.avatar || "/placeholder.svg"}
-                alt={blog.author.name}
-                width={60}
-                height={60}
-                className="rounded-full"
-              />
-              <div>
-                <h3 className="font-bold">{blog.author.name}</h3>
-                <p className="text-muted-foreground text-sm">
-                  {blog.author.role}
-                </p>
-                <p className="mt-1 text-sm">{blog.author.bio}</p>
+          {author && (
+            <div className="mt-8 border-t pt-4 md:mt-12 md:pt-8">
+              <div className="flex items-center gap-4">
+                <Image
+                  src={author.avatar || "/placeholder.svg"}
+                  alt={author.name}
+                  width={60}
+                  height={60}
+                  className="rounded-full"
+                />
+                <div>
+                  <h3 className="font-bold">{author.name}</h3>
+                  <p className="text-muted-foreground text-sm">{author.role}</p>
+                  <p className="mt-1 text-sm">{author.bio}</p>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </article>
       </div>
-      <IncrementViews objectId={blog.objectId} views={blog.views} />
+      <IncrementViews objectId={blog.objectId} />
     </main>
   );
 };

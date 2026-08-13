@@ -10,8 +10,8 @@ export type Blog = {
   slug: string; // String dengan max length 250
   title: string; // String dengan max length 250
   ownerId: string; // String dengan max length 36
-  created: string; // Datetime (ISO string)
-  updated: string; // Datetime (ISO string)
+  created: number; // Datetime (epoch milidetik dari Backendless)
+  updated: number; // Datetime (epoch milidetik dari Backendless)
   views: number;
   author: Author;
   categories: Category;

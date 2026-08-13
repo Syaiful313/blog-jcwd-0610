@@ -16,7 +16,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "HotCoffee",
+  title: {
+    default: "HotCoffee",
+    template: "%s | HotCoffee",
+  },
   description:
     "HotCoffee is a minimalist blog sharing thoughts and stories that warm your mind like a fresh cup of coffee. Join us for daily reads on lifestyle, technology, and creative inspiration.",
 };

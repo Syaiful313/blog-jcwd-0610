@@ -1,78 +1,48 @@
-"use client";
-import useGetAuthor from "@/hooks/api/author/useGetAuthor";
 import { formatDate } from "@/lib/utils";
+import { getAuthorBySlug } from "@/utils/api";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { FC, useEffect, useState } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
-
-interface AuthorParams {
-  slug: string;
-}
+import { notFound } from "next/navigation";
 
 interface AuthorDetailProps {
-  params: Promise<AuthorParams>;
+  params: Promise<{ slug: string }>;
 }
 
-const AuthorDetail: FC<AuthorDetailProps> = ({ params }) => {
-  const [slug, setSlug] = useState<string>("");
-  const { data: authors = [], isPending, isError } = useGetAuthor(slug);
+export async function generateMetadata({
+  params,
+}: AuthorDetailProps): Promise<Metadata> {
+  const { slug } = await params;
+  const author = await getAuthorBySlug(slug);
 
-  useEffect(() => {
-    const fetchParams = async () => {
-      const resolvedParams = await params;
-      setSlug(resolvedParams.slug || "");
-    };
-
-    fetchParams();
-  }, [params]);
-
-  const author = authors[0];
-
-  if (isError) return <p>Error fetching author details.</p>;
-
-  if (isPending) {
-    return (
-      <div className="mx-4 md:mx-0 py-10">
-        <div className="container mx-auto max-w-4xl">
-          <div className="mb-12 flex flex-col items-center md:flex-row md:items-start md:gap-8">
-            <Skeleton className="h-[150px] w-[150px] rounded-xl" />
-            <div className="w-full">
-              <Skeleton className="h-10 w-2/3 mb-2 mx-auto md:mx-0" />
-              <Skeleton className="h-6 w-1/3 mb-4 mx-auto md:mx-0" />
-              <Skeleton className="h-4 w-full mb-2" />
-              <Skeleton className="h-4 w-full mb-2" />
-              <Skeleton className="h-4 w-3/4" />
-            </div>
-          </div>
-
-          <div className="mt-12">
-            <Skeleton className="h-8 w-1/3 mb-6" />
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="border rounded-lg overflow-hidden h-full flex flex-col">
-                  <Skeleton className="h-48 w-full" />
-                  <div className="flex-1 p-4 space-y-2">
-                    <div className="flex items-center gap-2">
-                      <Skeleton className="h-6 w-20 rounded-full" />
-                      <Skeleton className="h-4 w-24" />
-                    </div>
-                    <Skeleton className="h-6 w-full" />
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-3/4" />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+  if (!author) {
+    return { title: "Author Not Found" };
   }
 
+  return {
+    title: author.name,
+    description: author.bio,
+    openGraph: {
+      type: "profile",
+      title: author.name,
+      description: author.bio,
+      images: author.avatar ? [author.avatar] : undefined,
+    },
+  };
+}
+
+const AuthorDetail = async ({ params }: AuthorDetailProps) => {
+  const { slug } = await params;
+  const author = await getAuthorBySlug(slug);
+
+  if (!author) {
+    notFound();
+  }
+
+  const blogs = author.blogs ?? [];
+
   return (
-    <div className="mx-4 md:mx-0 py-10">
+    <div className="mx-4 py-10 md:mx-0">
       <div className="container mx-auto max-w-4xl">
         <div className="mb-12 flex flex-col items-center md:flex-row md:items-start md:gap-8">
           <Image
@@ -96,15 +66,19 @@ const AuthorDetail: FC<AuthorDetailProps> = ({ params }) => {
         </div>
 
         <div className="mt-12">
-          <h2 className="text-2xl font-bold mb-6">Blogs by {author.name}</h2>
+          <h2 className="mb-6 text-2xl font-bold">Blogs by {author.name}</h2>
 
-          {author.blogs.length === 0 ? (
+          {blogs.length === 0 ? (
             <p className="text-muted-foreground">No articles found.</p>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {author.blogs.map((post) => (
-                <Link key={post.objectId} href={`/blogs/${post.slug}`} className="group">
-                  <div className="space-y-3 border rounded-lg overflow-hidden h-full flex flex-col">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              {blogs.map((post) => (
+                <Link
+                  key={post.objectId}
+                  href={`/blogs/${post.slug}`}
+                  className="group"
+                >
+                  <div className="flex h-full flex-col space-y-3 overflow-hidden rounded-lg border">
                     <div className="overflow-hidden">
                       <Image
                         src={post.thumbnail || "/placeholder.svg"}
@@ -114,13 +88,19 @@ const AuthorDetail: FC<AuthorDetailProps> = ({ params }) => {
                         className="h-48 w-full object-cover transition-transform duration-300 group-hover:scale-105"
                       />
                     </div>
-                    <div className="flex-1 p-4 space-y-2">
+                    <div className="flex-1 space-y-2 p-4">
                       <div className="flex items-center gap-2">
-                        <span className="text-xs px-2 py-1 bg-muted rounded-full">{post.category}</span>
-                        <span className="text-xs text-muted-foreground">{formatDate(post.created)}</span>
+                        <span className="bg-muted rounded-full px-2 py-1 text-xs">
+                          {post.category}
+                        </span>
+                        <span className="text-muted-foreground text-xs">
+                          {formatDate(post.created)}
+                        </span>
                       </div>
                       <h3 className="text-xl font-bold">{post.title}</h3>
-                      <p className="text-muted-foreground line-clamp-2">{post.description}</p>
+                      <p className="text-muted-foreground line-clamp-2">
+                        {post.description}
+                      </p>
                     </div>
                   </div>
                 </Link>
